@@ -1,0 +1,43 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  php80:
+    build: ./php80
+    container_name: php80
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./php/php.ini /usr/local/etc/php/php.ini
+    depends_on:
+      - mysql
+    command: bash -c "php -S 0.0.0.0:80 -t /var/www/html"
+
+  php81:
+    build: ./php81
+    container_name: php81
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./php/php.ini /usr/local/etc/php/php.ini
+    depends_on:
+      - mysql
+    command: bash -c "php -S 0.0.0.0:80 -t /var/www/html"
+
+volumes:
+  db_data:
