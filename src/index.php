@@ -1,5 +1,5 @@
 <?php
-echo 'PHP version: ' . phpversion() . '<br><br>';
+echo 'PHP version: ' . phpversion() . '<br />';
 
 $dsn = 'mysql:host=mysql;dbname=my_database;charset=utf8mb4';
 $username = 'user';
@@ -10,9 +10,13 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->exec('SET NAMES utf8mb4');
 
+    $pdoAttrEmulatePrepares = $pdo->getAttribute(PDO::ATTR_EMULATE_PREPARES);
+    echo "PDO::ATTR_EMULATE_PREPARES: $pdoAttrEmulatePrepares<br /><br />";
+
     $stmt = $pdo->prepare('SELECT * FROM pokemons');
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
     foreach ($result as $row) {
         $id               = $row['id'];

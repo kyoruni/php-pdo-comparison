@@ -15,8 +15,6 @@ docker compose up -d
   - PHP8.1： `http://localhost:8081/`
   - PHP8.0： `http://localhost:8080/`
 
------
-
 ## メモ
 ### INT 型
 - PHP8.1： `integer`
